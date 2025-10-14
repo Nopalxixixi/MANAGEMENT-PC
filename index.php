@@ -517,53 +517,29 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
             opacity: 0.3;
         }
 
-        /* Footer */
-        .footer {
-            background: var(--bg-secondary);
-            padding: 30px 0;
-            text-align: center;
-            margin-top: 60px;
-            border-top: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-        }
-
-        .footer p {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        /* Mobile Menu */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 24px;
-            color: var(--text-primary);
-            cursor: pointer;
-        }
-
-        /* Modal Delete Confirmation */
-        .modal-overlay {
+        /* Delete Modal */
+        .modal {
             display: none;
             position: fixed;
-            top: 0;
+            z-index: 1000;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 9999;
-            align-items: center;
-            justify-content: center;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
             animation: fadeIn 0.3s ease;
-        }
-
-        .modal-overlay.active {
-            display: flex;
         }
 
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .modal-content {
@@ -578,13 +554,13 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
         }
 
         @keyframes slideUp {
-            from {
-                transform: translateY(50px);
+            from { 
                 opacity: 0;
+                transform: translateY(50px);
             }
-            to {
-                transform: translateY(0);
+            to { 
                 opacity: 1;
+                transform: translateY(0);
             }
         }
 
@@ -592,14 +568,14 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
             display: flex;
             align-items: center;
             gap: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .modal-icon {
             width: 60px;
             height: 60px;
-            background: rgba(239, 68, 68, 0.1);
             border-radius: 50%;
+            background: rgba(239, 68, 68, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -607,21 +583,21 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
             color: #EF4444;
         }
 
-        .modal-title {
+        .modal-header h3 {
             font-size: 24px;
-            font-weight: 700;
             color: var(--text-primary);
+            font-weight: 700;
         }
 
         .modal-body {
             margin-bottom: 30px;
         }
 
-        .modal-text {
+        .modal-body p {
             color: var(--text-secondary);
-            font-size: 15px;
-            line-height: 1.6;
+            font-size: 14px;
             margin-bottom: 20px;
+            line-height: 1.6;
         }
 
         .delete-info {
@@ -646,41 +622,44 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
             font-weight: 600;
             color: var(--text-secondary);
             font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .delete-info-value {
             font-weight: 600;
             color: var(--text-primary);
-            font-size: 14px;
+            font-size: 13px;
+            text-align: right;
         }
 
-        .modal-buttons {
+        .modal-footer {
             display: flex;
             gap: 12px;
+            justify-content: flex-end;
         }
 
         .btn-modal {
-            flex: 1;
-            padding: 14px 24px;
+            padding: 12px 24px;
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .btn-cancel {
             background: var(--bg-primary);
-            color: var(--text-primary);
+            color: var(--text-secondary);
             border: 2px solid var(--border-color);
         }
 
         .btn-cancel:hover {
             background: var(--border-color);
+            color: var(--text-primary);
         }
 
         .btn-confirm-delete {
@@ -691,7 +670,32 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
         .btn-confirm-delete:hover {
             background: #DC2626;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-secondary);
+            padding: 30px 0;
+            text-align: center;
+            margin-top: 60px;
+            border-top: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .footer p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--text-primary);
+            cursor: pointer;
         }
 
         /* Responsive */
@@ -765,9 +769,7 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
             <div class="nav-right">
                 <ul class="nav-menu" id="navMenu">
                     <li><a href="index.php" class="active">Dashboard</a></li>
-                    <li><a href="index.php">Data PC</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Logout</a></li>
+                    <li><a href="index.php">Data PC</a></li> 
                 </ul>
                 <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode">
                     <i class="fas fa-sun sun-icon"></i>
@@ -898,12 +900,11 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
                                         <a href="edit.php?id=<?= $row['id']; ?>" class="btn-icon btn-edit" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <a href="index.php?delete=<?= $row['id']; ?>" 
+                                        <button onclick="showDeleteModal(<?= $row['id']; ?>, '<?= addslashes($row['nama_pc']); ?>', '<?= addslashes($row['nama_user']); ?>', '<?= addslashes($row['nomor_asset']); ?>')" 
                                            class="btn-icon btn-delete" 
-                                           onclick="return confirm('Yakin ingin menghapus data ini?')"
                                            title="Hapus">
                                             <i class="fas fa-trash"></i>
-                                        </a>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -923,8 +924,34 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
 
     <!-- Footer -->
     <footer class="footer">
-        <p>© 2025 PC Management System | Made by Nopal</p>
+        <p>© 2025 PC Management System | Made by Nopal Siegma</p>
     </footer>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3>Konfirmasi Hapus</h3>
+            </div>
+            <div class="modal-body">
+                <p>Apakah Anda yakin ingin menghapus data PC berikut? Tindakan ini tidak dapat dibatalkan.</p>
+                <div class="delete-info" id="deleteInfo">
+                    <!-- Will be filled by JavaScript -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-modal btn-cancel" onclick="closeDeleteModal()">
+                    <i class="fas fa-times"></i> Batal
+                </button>
+                <button class="btn-modal btn-confirm-delete" onclick="confirmDelete()">
+                    <i class="fas fa-trash"></i> Ya, Hapus
+                </button>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Load saved theme on page load
@@ -984,6 +1011,55 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
                 setTimeout(() => alert.remove(), 500);
             }
         }, 3000);
+
+        // Delete Modal Functions
+        let deleteId = null;
+
+        function showDeleteModal(id, namaPc, namaUser, nomorAsset) {
+            deleteId = id;
+            const deleteInfo = document.getElementById('deleteInfo');
+            deleteInfo.innerHTML = `
+                <div class="delete-info-item">
+                    <span class="delete-info-label">Nama PC:</span>
+                    <span class="delete-info-value">${namaPc}</span>
+                </div>
+                <div class="delete-info-item">
+                    <span class="delete-info-label">Nama User:</span>
+                    <span class="delete-info-value">${namaUser}</span>
+                </div>
+                <div class="delete-info-item">
+                    <span class="delete-info-label">Nomor Asset:</span>
+                    <span class="delete-info-value">${nomorAsset}</span>
+                </div>
+            `;
+            document.getElementById('deleteModal').classList.add('show');
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('show');
+            deleteId = null;
+        }
+
+        function confirmDelete() {
+            if (deleteId) {
+                window.location.href = `index.php?delete=${deleteId}`;
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('deleteModal');
+            if (event.target === modal) {
+                closeDeleteModal();
+            }
+        }
+
+        // Close modal with ESC key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeDeleteModal();
+            }
+        });
     </script>
 </body>
 </html>
