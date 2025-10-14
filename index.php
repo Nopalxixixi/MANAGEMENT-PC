@@ -769,7 +769,7 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
             <div class="nav-right">
                 <ul class="nav-menu" id="navMenu">
                     <li><a href="index.php" class="active">Dashboard</a></li>
-                    <li><a href="index.php">Data PC</a></li> 
+                    <li><a href="index.php">Data PC</a></li>
                 </ul>
                 <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode">
                     <i class="fas fa-sun sun-icon"></i>
