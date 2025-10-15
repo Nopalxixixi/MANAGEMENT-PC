@@ -282,395 +282,78 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
             }
         }
 
+        /* Dashboard Info */
+        .dashboard-info {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .dashboard-info h2 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 15px;
+        }
+
+        .dashboard-info p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 50px;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .action-card {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .action-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            border-color: #3B82F6;
+        }
+
+        .action-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            font-size: 32px;
+        }
+
+        .action-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .action-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
         /* Main Content */
         .main-content {
             max-width: 1400px;
             margin: 0 auto;
             padding: 0 30px 80px;
-        }
-
-        .content-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .search-box {
-            display: flex;
-            align-items: center;
-            background: var(--bg-secondary);
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            padding: 12px 20px;
-            gap: 12px;
-            flex: 1;
-            max-width: 400px;
-            transition: all 0.3s ease;
-        }
-
-        .search-box:focus-within {
-            border-color: #3B82F6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        .search-box input {
-            border: none;
-            outline: none;
-            font-size: 14px;
-            font-family: 'Inter', sans-serif;
-            width: 100%;
-            background: transparent;
-            color: var(--text-primary);
-        }
-
-        .search-box input::placeholder {
-            color: var(--text-secondary);
-        }
-
-        .search-box i {
-            color: var(--text-secondary);
-        }
-
-        .btn-add {
-            background: linear-gradient(135deg, #00AEEF, #00E3A5);
-            color: #FFFFFF;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
-            box-shadow: 0 4px 15px rgba(0, 174, 239, 0.3);
-            text-decoration: none;
-        }
-
-        .btn-add:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 174, 239, 0.4);
-        }
-
-        /* Table */
-        .table-container {
-            background: var(--bg-secondary);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: var(--shadow-medium);
-            transition: all 0.3s ease;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        thead {
-            background: var(--bg-primary);
-        }
-
-        th {
-            padding: 22px 20px;
-            text-align: left;
-            font-weight: 600;
-            font-size: 12px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 2px solid var(--border-color);
-        }
-
-        td {
-            padding: 22px 20px;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 14px;
-            color: var(--text-primary);
-            transition: all 0.3s ease;
-        }
-
-        tbody tr {
-            transition: all 0.3s ease;
-        }
-
-        tbody tr:hover {
-            background: var(--hover-bg);
-        }
-
-        .pc-name {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
-        }
-
-        .pc-name i {
-            color: #3B82F6;
-        }
-
-        .status-badge {
-            padding: 7px 16px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .status-baik {
-            background: rgba(59, 130, 246, 0.15);
-            color: #3B82F6;
-            border: 1px solid rgba(59, 130, 246, 0.3);
-        }
-
-        .status-maintenance {
-            background: rgba(251, 191, 36, 0.15);
-            color: #D97706;
-            border: 1px solid rgba(251, 191, 36, 0.3);
-        }
-
-        .status-rusak {
-            background: rgba(239, 68, 68, 0.15);
-            color: #EF4444;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-icon {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .btn-edit {
-            background: rgba(59, 130, 246, 0.1);
-            color: #3B82F6;
-            border: 1px solid rgba(59, 130, 246, 0.2);
-        }
-
-        .btn-edit:hover {
-            background: #3B82F6;
-            color: #FFFFFF;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-        }
-
-        .btn-delete {
-            background: rgba(239, 68, 68, 0.1);
-            color: #EF4444;
-            border: 1px solid rgba(239, 68, 68, 0.2);
-        }
-
-        .btn-delete:hover {
-            background: #EF4444;
-            color: #FFFFFF;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-        }
-
-        .ip-address {
-            font-family: 'Courier New', monospace;
-            background: var(--bg-primary);
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 13px;
-            color: var(--text-secondary);
-            border: 1px solid var(--border-color);
-        }
-
-        .asset-number {
-            font-family: 'Courier New', monospace;
-            color: #3B82F6;
-            font-weight: 600;
-            font-size: 13px;
-        }
-
-        .no-data {
-            text-align: center;
-            padding: 80px 20px;
-            color: var(--text-secondary);
-        }
-
-        .no-data i {
-            font-size: 56px;
-            margin-bottom: 20px;
-            opacity: 0.3;
-        }
-
-        /* Delete Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal.show {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: var(--bg-secondary);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            animation: slideUp 0.3s ease;
-            position: relative;
-        }
-
-        @keyframes slideUp {
-            from { 
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .modal-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: rgba(239, 68, 68, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            color: #EF4444;
-        }
-
-        .modal-header h3 {
-            font-size: 24px;
-            color: var(--text-primary);
-            font-weight: 700;
-        }
-
-        .modal-body {
-            margin-bottom: 30px;
-        }
-
-        .modal-body p {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        .delete-info {
-            background: var(--bg-primary);
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-        }
-
-        .delete-info-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .delete-info-item:last-child {
-            border-bottom: none;
-        }
-
-        .delete-info-label {
-            font-weight: 600;
-            color: var(--text-secondary);
-            font-size: 13px;
-        }
-
-        .delete-info-value {
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 13px;
-            text-align: right;
-        }
-
-        .modal-footer {
-            display: flex;
-            gap: 12px;
-            justify-content: flex-end;
-        }
-
-        .btn-modal {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-cancel {
-            background: var(--bg-primary);
-            color: var(--text-secondary);
-            border: 2px solid var(--border-color);
-        }
-
-        .btn-cancel:hover {
-            background: var(--border-color);
-            color: var(--text-primary);
-        }
-
-        .btn-confirm-delete {
-            background: #EF4444;
-            color: #FFFFFF;
-        }
-
-        .btn-confirm-delete:hover {
-            background: #DC2626;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
         }
 
         /* Footer */
@@ -769,7 +452,9 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
             <div class="nav-right">
                 <ul class="nav-menu" id="navMenu">
                     <li><a href="index.php" class="active">Dashboard</a></li>
-                    <li><a href="index.php">Data PC</a></li>
+                    <li><a href="data_pc.php">Data PC</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Logout</a></li>
                 </ul>
                 <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode">
                     <i class="fas fa-sun sun-icon"></i>
@@ -837,122 +522,42 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
 
     <!-- Main Content -->
     <main class="main-content">
-        <div class="content-header">
-            <div class="search-box">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Cari nama PC, user, atau asset..." onkeyup="searchTable()">
+        <div class="dashboard-info">
+            <h2>Selamat Datang di Dashboard</h2>
+            <p>Kelola dan monitor semua inventaris komputer perusahaan Anda dengan mudah dan efisien.</p>
+            
+            <div class="quick-actions">
+                <a href="data_pc.php" class="action-card">
+                    <div class="action-icon" style="background: rgba(59, 130, 246, 0.1); color: #3B82F6;">
+                        <i class="fas fa-list"></i>
+                    </div>
+                    <h3>Lihat Semua Data PC</h3>
+                    <p>Kelola dan lihat detail semua komputer</p>
+                </a>
+                
+                <a href="tambah.php" class="action-card">
+                    <div class="action-icon" style="background: rgba(0, 227, 165, 0.1); color: #00E3A5;">
+                        <i class="fas fa-plus-circle"></i>
+                    </div>
+                    <h3>Tambah PC Baru</h3>
+                    <p>Daftarkan komputer baru ke sistem</p>
+                </a>
+                
+                <a href="#" class="action-card">
+                    <div class="action-icon" style="background: rgba(251, 191, 36, 0.1); color: #FBBF24;">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Laporan & Statistik</h3>
+                    <p>Lihat laporan dan analisis data</p>
+                </a>
             </div>
-            <a href="tambah.php" class="btn-add">
-                <i class="fas fa-plus"></i>
-                Tambah PC Baru
-            </a>
-        </div>
-
-        <div class="table-container">
-            <table id="dataTable">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama PC</th>
-                        <th>Nama User</th>
-                        <th>Nomor Asset</th>
-                        <th>IP Address</th>
-                        <th>Status</th>
-                        <th>Tanggal Produksi</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (mysqli_num_rows($result) > 0): ?>
-                        <?php $no = 1; while ($row = mysqli_fetch_assoc($result)): ?>
-                            <tr>
-                                <td><?= $no++; ?></td>
-                                <td>
-                                    <div class="pc-name">
-                                        <i class="fas fa-microchip"></i>
-                                        <?= htmlspecialchars($row['nama_pc']); ?>
-                                    </div>
-                                </td>
-                                <td><?= htmlspecialchars($row['nama_user']); ?></td>
-                                <td><span class="asset-number"><?= htmlspecialchars($row['nomor_asset']); ?></span></td>
-                                <td><span class="ip-address"><?= htmlspecialchars($row['nomor_ip']); ?></span></td>
-                                <td>
-                                    <?php
-                                    $statusClass = 'status-baik';
-                                    $statusIcon = 'fa-check-circle';
-                                    $status = strtolower($row['status']);
-                                    if (strpos($status, 'maintenance') !== false) {
-                                        $statusClass = 'status-maintenance';
-                                        $statusIcon = 'fa-tools';
-                                    } elseif (strpos($status, 'rusak') !== false) {
-                                        $statusClass = 'status-rusak';
-                                        $statusIcon = 'fa-exclamation-triangle';
-                                    }
-                                    ?>
-                                    <span class="status-badge <?= $statusClass; ?>">
-                                        <i class="fas <?= $statusIcon; ?>"></i>
-                                        <?= htmlspecialchars($row['status']); ?>
-                                    </span>
-                                </td>
-                                <td><?= date('d/m/Y', strtotime($row['tanggal_produksi'])); ?></td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <a href="edit.php?id=<?= $row['id']; ?>" class="btn-icon btn-edit" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <button onclick="showDeleteModal(<?= $row['id']; ?>, '<?= addslashes($row['nama_pc']); ?>', '<?= addslashes($row['nama_user']); ?>', '<?= addslashes($row['nomor_asset']); ?>')" 
-                                           class="btn-icon btn-delete" 
-                                           title="Hapus">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php endwhile; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="8" class="no-data">
-                                <i class="fas fa-inbox"></i>
-                                <div>Belum ada data PC. Silakan tambah data baru.</div>
-                            </td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
         </div>
     </main>
 
     <!-- Footer -->
     <footer class="footer">
-        <p>© 2025 PC Management System | Made by Nopal Siegma</p>
+        <p>© 2025 PC Management System | Made by Nopal</p>
     </footer>
-
-    <!-- Delete Confirmation Modal -->
-    <div id="deleteModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-icon">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </div>
-                <h3>Konfirmasi Hapus</h3>
-            </div>
-            <div class="modal-body">
-                <p>Apakah Anda yakin ingin menghapus data PC berikut? Tindakan ini tidak dapat dibatalkan.</p>
-                <div class="delete-info" id="deleteInfo">
-                    <!-- Will be filled by JavaScript -->
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-modal btn-cancel" onclick="closeDeleteModal()">
-                    <i class="fas fa-times"></i> Batal
-                </button>
-                <button class="btn-modal btn-confirm-delete" onclick="confirmDelete()">
-                    <i class="fas fa-trash"></i> Ya, Hapus
-                </button>
-            </div>
-        </div>
-    </div>
-
     <script>
         // Load saved theme on page load
         document.addEventListener('DOMContentLoaded', () => {

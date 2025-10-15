@@ -180,12 +180,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             color: var(--text-primary);
             transition: all 0.3s ease;
             font-family: 'Inter', sans-serif;
+            color-scheme: light dark;
         }
 
         body.dark-mode input[type="text"],
         body.dark-mode input[type="date"],
         body.dark-mode select {
             background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        body.dark-mode input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
         }
 
         input[type="text"]:focus,
