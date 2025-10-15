@@ -453,8 +453,6 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
                 <ul class="nav-menu" id="navMenu">
                     <li><a href="index.php" class="active">Dashboard</a></li>
                     <li><a href="data_pc.php">Data PC</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Logout</a></li>
                 </ul>
                 <button class="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode">
                     <i class="fas fa-sun sun-icon"></i>
@@ -541,14 +539,6 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
                     </div>
                     <h3>Tambah PC Baru</h3>
                     <p>Daftarkan komputer baru ke sistem</p>
-                </a>
-                
-                <a href="#" class="action-card">
-                    <div class="action-icon" style="background: rgba(251, 191, 36, 0.1); color: #FBBF24;">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Laporan & Statistik</h3>
-                    <p>Lihat laporan dan analisis data</p>
                 </a>
             </div>
         </div>
