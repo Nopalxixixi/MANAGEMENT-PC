@@ -55,6 +55,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Data PC - PC Management System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -65,6 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             --text-secondary: #64748B;
             --border-color: #E2E8F0;
             --gradient-hero: linear-gradient(135deg, #00AEEF, #00E3A5);
+            --hover-bg: #F8FAFC;
         }
 
         body.dark-mode {
@@ -74,6 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             --text-secondary: #94A3B8;
             --border-color: #3A3A3A;
             --gradient-hero: linear-gradient(135deg, #0F172A, #1E3A8A);
+            --hover-bg: #2D2D2D;
         }
 
         * {
@@ -236,6 +240,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             box-shadow: 0 6px 20px rgba(0, 174, 239, 0.4);
         }
 
+        body.dark-mode .btn-primary {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode .btn-primary:hover {
+            background: var(--hover-bg);
+            border-color: #3B82F6;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+
         .btn-secondary {
             background: var(--bg-primary);
             color: var(--text-secondary);
@@ -338,12 +356,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <i class="fas fa-moon moon-icon"></i>
     </button>
 
-    <div class="container">
-        <a href="index.php" class="back-link">
+    <div class="container" data-aos="zoom-in" data-aos-duration="800">
+        <a href="index.php" class="back-link" data-aos="fade-right" data-aos-delay="200">
             <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
         </a>
         
-        <div class="header">
+        <div class="header" data-aos="fade-up" data-aos-delay="300">
             <h1>
                 <i class="fas fa-edit"></i>
                 Edit Data PC
@@ -352,12 +370,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
 
         <?php if ($error): ?>
-            <div class="alert">
+            <div class="alert" data-aos="fade-up" data-aos-delay="400">
                 <i class="fas fa-exclamation-circle"></i> <?= $error; ?>
             </div>
         <?php endif; ?>
 
-        <form method="POST" action="">
+        <form method="POST" action="" data-aos="fade-up" data-aos-delay="400">
             <div class="form-grid">
                 <div class="form-group">
                     <label>Nama PC <span class="required">*</span></label>
@@ -412,8 +430,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 
     <script>
-        // Load saved theme
+        // Initialize AOS
         document.addEventListener('DOMContentLoaded', () => {
+            AOS.init();
+            
+            // Load saved theme
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'dark') {
                 document.body.classList.add('dark-mode');

@@ -3,10 +3,27 @@ include 'config.php';
 
 // Proses Delete
 if (isset($_GET['delete'])) {
-    $id = $_GET['delete'];
-    $delete = mysqli_query($conn, "DELETE FROM pc_list WHERE id = $id");
-    if ($delete) {
-        header("Location: data_pc.php?msg=delete_success");
+    $id = intval($_GET['delete']);
+    if ($id > 0) {
+        $stmt = mysqli_prepare($conn, "DELETE FROM pc_list WHERE id = ?");
+        if ($stmt) {
+            mysqli_stmt_bind_param($stmt, "i", $id);
+            mysqli_stmt_execute($stmt);
+            $affected = mysqli_stmt_affected_rows($stmt);
+            mysqli_stmt_close($stmt);
+            if ($affected > 0) {
+                header("Location: data_pc.php?msg=delete_success");
+                exit();
+            } else {
+                header("Location: data_pc.php?msg=delete_error");
+                exit();
+            }
+        } else {
+            header("Location: data_pc.php?msg=delete_error");
+            exit();
+        }
+    } else {
+        header("Location: data_pc.php?msg=delete_error");
         exit();
     }
 }
@@ -35,6 +52,8 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data PC - PC Management System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -359,6 +378,20 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
             box-shadow: 0 8px 25px rgba(0, 174, 239, 0.4);
         }
 
+        body.dark-mode .btn-add {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode .btn-add:hover {
+            background: var(--hover-bg);
+            border-color: #3B82F6;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+
         /* Table */
         .table-container {
             background: var(--bg-secondary);
@@ -520,159 +553,163 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
         }
 
         /* Delete Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal.show {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: var(--bg-secondary);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            animation: slideUp 0.3s ease;
-        }
-
-        @keyframes slideUp {
-            from { 
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .modal-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: rgba(239, 68, 68, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            color: #EF4444;
-        }
-
-        .modal-header h3 {
-            font-size: 24px;
-            color: var(--text-primary);
-            font-weight: 700;
-        }
-
-        .modal-body {
-            margin-bottom: 30px;
-        }
-
-        .modal-body p {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        .delete-info {
-            background: var(--bg-primary);
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-        }
-
-        .delete-info-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .delete-info-item:last-child {
-            border-bottom: none;
-        }
-
-        .delete-info-label {
-            font-weight: 600;
-            color: var(--text-secondary);
-            font-size: 13px;
-        }
-
-        .delete-info-value {
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 13px;
-            text-align: right;
-        }
-
-        .modal-footer {
-            display: flex;
-            gap: 12px;
-            justify-content: flex-end;
-        }
-
-        .btn-modal {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-cancel {
-            background: var(--bg-primary);
-            color: var(--text-secondary);
-            border: 2px solid var(--border-color);
-        }
-
-        .btn-cancel:hover {
-            background: var(--border-color);
-            color: var(--text-primary);
-        }
-
-        .btn-confirm-delete {
-            background: #EF4444;
-            color: #FFFFFF;
-        }
-
-        .btn-confirm-delete:hover {
-            background: #DC2626;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
-        }
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        visibility: hidden;
+        transform: scale(1.1);
+        transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+    }
+    
+    .modal.show {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1.0);
+        transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+    }
+    
+    .modal-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: var(--bg-secondary);
+        padding: 30px;
+        width: 500px;
+        max-width: 90%;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--border-color);
+    }
+    
+    .modal-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .modal-icon {
+        width: 48px;
+        height: 48px;
+        background-color: #FEF2F2;
+        color: #EF4444;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        font-size: 20px;
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+    }
+    
+    .modal h3 {
+        color: var(--text-primary);
+        margin: 0;
+        font-size: 22px;
+        font-weight: 600;
+    }
+    
+    .modal-body {
+        margin-bottom: 25px;
+    }
+    
+    .modal-body p {
+        color: var(--text-secondary);
+        margin-bottom: 20px;
+        font-size: 15px;
+        line-height: 1.5;
+    }
+    
+    .delete-info {
+        background-color: var(--bg-primary);
+        border-radius: 10px;
+        padding: 18px;
+        margin-top: 15px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        border: 1px solid var(--border-color);
+    }
+    
+    .delete-info-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--border-color);
+        align-items: center;
+    }
+    
+    .delete-info-item:last-child {
+        border-bottom: none;
+    }
+    
+    .delete-info-label {
+        font-weight: 500;
+        color: var(--text-secondary);
+        flex: 1;
+        font-size: 14px;
+    }
+    
+    .delete-info-value {
+        color: var(--text-primary);
+        font-weight: 600;
+        flex: 2;
+        text-align: right;
+        font-size: 15px;
+    }
+    
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        padding-top: 15px;
+        border-top: 1px solid var(--border-color);
+    }
+    
+    .btn-modal {
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.2s;
+        border: none;
+        font-size: 15px;
+    }
+    
+    .btn-cancel {
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
+    }
+    
+    .btn-cancel:hover {
+        background-color: var(--hover-bg);
+        transform: translateY(-2px);
+    }
+    
+    .btn-confirm-delete {
+        background-color: #EF4444;
+        color: white;
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+    }
+    
+    .btn-confirm-delete:hover {
+        background-color: #DC2626;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(239, 68, 68, 0.25);
+    }
 
         /* Footer */
         .footer {
@@ -823,6 +860,9 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
                     case 'delete_success':
                         echo "Data PC berhasil dihapus!";
                         break;
+                    case 'delete_error':
+                        echo "Gagal menghapus data PC.";
+                        break;
                 }
                 ?>
             </div>
@@ -842,24 +882,24 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
             </a>
         </div>
 
-        <div class="table-container">
-            <table id="dataTable">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama PC</th>
-                        <th>Nama User</th>
-                        <th>Nomor Asset</th>
-                        <th>IP Address</th>
-                        <th>Status</th>
-                        <th>Tanggal Produksi</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
+        <div class="table-responsive" data-aos="fade-up" data-aos-delay="200">
+                <table id="dataTable">
+                    <thead>
+                        <tr data-aos="fade-right" data-aos-delay="300">
+                            <th>No</th>
+                            <th>Nama PC</th>
+                            <th>Nama User</th>
+                            <th>Nomor Asset</th>
+                            <th>Nomor IP</th>
+                            <th>Status</th>
+                            <th>Tanggal Produksi</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                     <?php if (mysqli_num_rows($result) > 0): ?>
                         <?php $no = 1; while ($row = mysqli_fetch_assoc($result)): ?>
-                            <tr>
+                            <tr data-aos="fade-up" data-aos-delay="<?= ($no * 50) + 300 ?>">
                                 <td><?= $no++; ?></td>
                                 <td>
                                     <div class="pc-name">
@@ -894,7 +934,7 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
                                         <a href="edit.php?id=<?= $row['id']; ?>" class="btn-icon btn-edit" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <button onclick="showDeleteModal(<?= $row['id']; ?>, '<?= addslashes($row['nama_pc']); ?>', '<?= addslashes($row['nama_user']); ?>', '<?= addslashes($row['nomor_asset']); ?>')" 
+                                        <button onclick="showDeleteModal(<?= $row['id']; ?>, '<?= addslashes($row['nama_pc']); ?>', '<?= addslashes($row['nama_user']); ?>', '<?= addslashes($row['nomor_asset']); ?>', '<?= addslashes($row['nomor_ip']); ?>', '<?= addslashes($row['status']); ?>', '<?= addslashes($row['tanggal_produksi']); ?>')" 
                                            class="btn-icon btn-delete" 
                                            title="Hapus">
                                             <i class="fas fa-trash"></i>
@@ -948,6 +988,13 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
     </div>
 
     <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-in-out',
+            once: true
+        });
+        
         // Load saved theme on page load
         document.addEventListener('DOMContentLoaded', () => {
             const savedTheme = localStorage.getItem('theme');
@@ -1009,9 +1056,33 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
         // Delete Modal Functions
         let deleteId = null;
 
-        function showDeleteModal(id, namaPc, namaUser, nomorAsset) {
+        function showDeleteModal(id, namaPc, namaUser, nomorAsset, nomorIp, status, tanggalProduksi) {
             deleteId = id;
             const deleteInfo = document.getElementById('deleteInfo');
+            const modal = document.getElementById('deleteModal');
+            
+            // Format tanggal untuk tampilan yang lebih baik
+            const formattedDate = new Date(tanggalProduksi).toLocaleDateString('id-ID', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+            
+            // Tentukan kelas status untuk warna
+            let statusClass = 'status-baik';
+            let statusIcon = 'fa-check-circle';
+            
+            if (status.toLowerCase().includes('maintenance')) {
+                statusClass = 'status-maintenance';
+                statusIcon = 'fa-tools';
+            } else if (status.toLowerCase().includes('rusak')) {
+                statusClass = 'status-rusak';
+                statusIcon = 'fa-exclamation-triangle';
+            }
+            
+            // Tampilkan modal
+            modal.classList.add('show');
+            
             deleteInfo.innerHTML = `
                 <div class="delete-info-item">
                     <span class="delete-info-label">Nama PC:</span>
@@ -1025,8 +1096,24 @@ $rusak = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) as count FROM p
                     <span class="delete-info-label">Nomor Asset:</span>
                     <span class="delete-info-value">${nomorAsset}</span>
                 </div>
+                <div class="delete-info-item">
+                    <span class="delete-info-label">Nomor IP:</span>
+                    <span class="delete-info-value">${nomorIp}</span>
+                </div>
+                <div class="delete-info-item">
+                    <span class="delete-info-label">Status:</span>
+                    <span class="delete-info-value">
+                        <span class="status-badge ${statusClass}">
+                            <i class="fas ${statusIcon}"></i>
+                            ${status}
+                        </span>
+                    </span>
+                </div>
+                <div class="delete-info-item">
+                    <span class="delete-info-label">Tanggal Produksi:</span>
+                    <span class="delete-info-value">${formattedDate}</span>
+                </div>
             `;
-            document.getElementById('deleteModal').classList.add('show');
         }
 
         function closeDeleteModal() {

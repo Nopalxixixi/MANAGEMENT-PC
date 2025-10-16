@@ -39,6 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah PC Baru - PC Management System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -49,6 +51,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             --text-secondary: #64748B;
             --border-color: #E2E8F0;
             --gradient-hero: linear-gradient(135deg, #00AEEF, #00E3A5);
+            --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.05);
+            --shadow-medium: 0 10px 40px rgba(0, 0, 0, 0.08);
+            --accent-color: #3B82F6;
+            --accent-hover: #2563EB;
+            --hover-bg: #F8FAFC;
+            --border-radius-md: 12px;
         }
 
         body.dark-mode {
@@ -57,7 +65,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             --text-primary: #E2E8F0;
             --text-secondary: #94A3B8;
             --border-color: #3A3A3A;
+            --hover-bg: #2D2D2D;
             --gradient-hero: linear-gradient(135deg, #0F172A, #1E3A8A);
+            --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --shadow-medium: 0 10px 40px rgba(0, 0, 0, 0.5);
+            --accent-color: #60A5FA;
+            --accent-hover: #3B82F6;
         }
 
         * {
@@ -79,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .container {
-            max-width: 700px;
+            max-width: 800px;
             width: 100%;
             background: var(--bg-secondary);
             border-radius: 24px;
@@ -212,18 +225,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .btn {
-            padding: 14px 28px;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            text-decoration: none;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             gap: 10px;
             font-family: 'Inter', sans-serif;
-            border-radius: 12px;
         }
 
         .btn-primary {
@@ -233,19 +248,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         .btn-primary:hover {
+            background: linear-gradient(135deg, #00AEEF, #00E3A5);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 174, 239, 0.4);
+            box-shadow: 0 8px 25px rgba(0, 174, 239, 0.4);
+        }
+
+        body.dark-mode .btn-primary {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            border: 2px solid var(--border-color);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        body.dark-mode .btn-primary:hover {
+            background: var(--hover-bg);
+            border-color: #3B82F6;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
         }
 
         .btn-secondary {
             background: var(--bg-primary);
-            color: var(--text-secondary);
-            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
         }
 
         .btn-secondary:hover {
-            background: var(--border-color);
-            color: var(--text-primary);
+            background: var(--hover-bg);
         }
 
         .alert {
@@ -345,14 +374,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <i class="fas fa-moon moon-icon"></i>
     </button>
 
-    <div class="container">
-        <a href="index.php" class="back-link">
+    <div class="container" data-aos="zoom-in" data-aos-duration="800">
+        <a href="index.php" class="back-link" data-aos="fade-right" data-aos-delay="200">
             <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
         </a>
         
-        <div class="header">
-            <h1>
-                <i class="fas fa-plus-circle"></i>
+        <div class="header" data-aos="fade-up" data-aos-delay="300">
+             <h1>
+                 <i class="fas fa-plus-circle"></i>
                 Tambah PC Baru
             </h1>
             <p class="subtitle">Isi formulir untuk menambah data PC ke sistem</p>
@@ -364,7 +393,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         <?php endif; ?>
 
-        <form method="POST" action="">
+        <form method="POST" action="" data-aos="fade-up" data-aos-delay="400">
             <div class="form-grid">
                 <div class="form-group">
                     <label>Nama PC <span class="required">*</span></label>
@@ -419,8 +448,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 
     <script>
-        // Load saved theme
+        // Initialize AOS
         document.addEventListener('DOMContentLoaded', () => {
+            AOS.init();
+            
+            // Load saved theme
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'dark') {
                 document.body.classList.add('dark-mode');
